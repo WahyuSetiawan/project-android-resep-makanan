@@ -2,6 +2,8 @@ package com.resepmakanantradisional.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.icu.text.NumberFormat;
+import android.icu.util.Currency;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,6 +17,8 @@ import com.nekoloop.base64image.Base64Image;
 import com.nekoloop.base64image.RequestDecode;
 import com.resepmakanantradisional.R;
 import com.resepmakanantradisional.database.Database;
+
+import java.util.Locale;
 
 public class DetailMakanan extends AppCompatActivity {
 
@@ -63,8 +67,9 @@ public class DetailMakanan extends AppCompatActivity {
         mTabCaraMemasak.setIndicator(getString(R.string.tab_cara_memasak_makanan));
         mTabHostMakanan.addTab(mTabCaraMemasak);
 
-        mTextProvinsiMakanan.setText(mTextProvinsiMakanan.getText() + makanan.getProvinsi().getNamaProvinsi());
+
         mTextHargaMakanan.setText(mTextHargaMakanan.getText() + String.valueOf(makanan.getHarga()));
+        mTextProvinsiMakanan.setText(mTextProvinsiMakanan.getText() + makanan.getProvinsi().getNamaProvinsi());
         mTextNamaMakanan.setText(mTextNamaMakanan.getText() + makanan.getNamaMakanan());
         mTextDeskripsiMakanan.setText(makanan.getDekripsiMakanan());
         mTextCaraMemasakMakanan.setText(makanan.getCaraMemasak());

@@ -43,18 +43,25 @@ public class Makanan extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        final AdapterMakanan adapterMakanan = new AdapterMakanan(this, makananOpenHelper.selectAllMakananByProvinsi(idprovinsi));
+        AdapterMakanan adapterMakanan = null;
+
+        if (idprovinsi == 0) {
+            adapterMakanan = new AdapterMakanan(this, makananOpenHelper.selectAllMakanan());
+        } else {
+            adapterMakanan = new AdapterMakanan(this, makananOpenHelper.selectAllMakananByProvinsi(idprovinsi));
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_makanan);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterMakanan);
 
+        final AdapterMakanan finalAdapterMakanan = adapterMakanan;
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int posititon) {
                 Intent detailmakanan = new Intent(Makanan.this, DetailMakanan.class);
-                detailmakanan.putExtra(getString(R.string.put_extra_id_makanan), adapterMakanan.getMakanan(posititon).getIdMakanan());
+                detailmakanan.putExtra(getString(R.string.put_extra_id_makanan), finalAdapterMakanan.getMakanan(posititon).getIdMakanan());
                 Makanan.this.startActivityForResult(detailmakanan, DetailMakanan.ID);
             }
 

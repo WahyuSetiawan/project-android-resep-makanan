@@ -17,10 +17,22 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/image_makanan"
+            <android.support.v7.widget.CardView
                 android:layout_width="150dp"
-                android:layout_height="150dp" />
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/image_makanan"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,6 +70,11 @@
                     android:text="Peta " />
             </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
