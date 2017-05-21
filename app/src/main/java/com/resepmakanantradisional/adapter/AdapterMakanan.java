@@ -25,6 +25,15 @@ public class AdapterMakanan extends RecyclerView.Adapter<AdapterMakanan.ViewHold
         this.makanans = makanans;
     }
 
+    public ArrayList<Makanan> getMakanans() {
+        return makanans;
+    }
+
+    public  void setFilter(ArrayList<Makanan> makanans){
+        this.makanans = makanans;
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolderMakanan onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolderMakanan(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_makanan, parent, false));

@@ -1,10 +1,16 @@
 package com.resepmakanantradisional.activity;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,13 +19,18 @@ import com.resepmakanantradisional.adapter.AdapterMakanan;
 import com.resepmakanantradisional.database.Database;
 import com.resepmakanantradisional.util.RecyclerTouchListener;
 
-public class Makanan extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class Makanan extends AppCompatActivity implements SearchView.OnQueryTextListener {
     public static int ID = 1000;
     private int idprovinsi;
 
     private RecyclerView recyclerView;
+    private ArrayList<com.resepmakanantradisional.model.Makanan> makananArrayList;
 
     private Database makananOpenHelper;
+
+    AdapterMakanan adapterMakanan = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +54,22 @@ public class Makanan extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        AdapterMakanan adapterMakanan = null;
-
         if (idprovinsi == 0) {
-            adapterMakanan = new AdapterMakanan(this, makananOpenHelper.selectAllMakanan());
+            makananArrayList = makananOpenHelper.selectAllMakanan();
         } else {
-            adapterMakanan = new AdapterMakanan(this, makananOpenHelper.selectAllMakananByProvinsi(idprovinsi));
+            makananArrayList = makananOpenHelper.selectAllMakananByProvinsi(idprovinsi);
         }
 
+        adapterMakanan = new AdapterMakanan(this, makananArrayList);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_makanan);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterMakanan);
 
+        setOnClickListenerRecycler();
+    }
+
+    private void setOnClickListenerRecycler() {
         final AdapterMakanan finalAdapterMakanan = adapterMakanan;
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -78,10 +92,24 @@ public class Makanan extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.action_bar_search, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_bar_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(this);
+        //return super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            case R.id.action_bar_search:
                 break;
         }
 
@@ -89,4 +117,24 @@ public class Makanan extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        ArrayList tmp = new ArrayList();
+
+        for (com.resepmakanantradisional.model.Makanan makanan : makananArrayList) {
+            if (makanan.getNamaMakanan().contains(newText)) {
+                tmp.add(makanan);
+            }
+        }
+
+        adapterMakanan.setFilter(tmp);
+
+        return false;
+    }
 }

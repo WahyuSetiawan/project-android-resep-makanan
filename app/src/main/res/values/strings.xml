@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Resep Makanan Tradisional</string>
+    <string name="app_name">Extraordinary Food</string>
     <string name="put_extra_id_provinsi">extra_idmakanan</string>
     <string name="put_extra_id_makanan">putextramakanan</string>
     <string name="tab_dekripsi_makanan">Deksripsi Makanan</string>
     <string name="tab_cara_memasak_makanan">Cara Memasak</string>
+    <string name="search_hint">Search Hint</string>
 </resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.resepmakanantradisional">\
-
+    package="com.resepmakanantradisional">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,14 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD1Ima31_OJZVI1Ls10lmFJOX5Z6FvgFOU"/>
+            android:value="AIzaSyD1Ima31_OJZVI1Ls10lmFJOX5Z6FvgFOU" />
 
-        <activity android:name=".activity.MenuUtama"/>
+        <activity android:name=".activity.MenuUtama" />
         <activity android:name=".activity.Provinsi" />
-        <activity android:name=".activity.Makanan" />
+        <activity android:name=".activity.Makanan" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".activity.SearchResultsActivity" />
+        </activity>
         <activity android:name=".activity.DetailMakanan" />
         <activity android:name=".activity.AboutMe" />
         <activity android:name=".activity.MapsMakanan" />
@@ -32,6 +34,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SearchResultsActivity"
+            android:parentActivityName=".activity.Makanan">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searhable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 
